@@ -1,0 +1,24 @@
+<!-- views/home.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Hunger-Free</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('partials/header') %> <!-- Include header -->
+
+    <div class="home">
+        <h1>Donate to Hunger-Free</h1>
+        <a href="/learn-more">LEARN MORE</a>
+    </div>
+    <div class="donate-banner">
+        <a href="/donation"><button class="donate-button">Donate Hyderabad</button></a>
+    </div>
+
+    <%- include ('partials/footer') %> <!-- Include footer -->
+</body>
+</html>

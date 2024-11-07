@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Donations</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>All Donations</h1>
+
+    <% if (success) { %>
+        <p class="success"><%= message %></p>
+        
+        <h2>Donation List</h2>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Food Type</th>
+                    <th>Quantity</th>
+                    <th>Pickup Location</th>
+                    <th>Assurity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% user.donations.forEach(donation => { %>
+                    <tr>
+                        <td><%= donation.name %></td>
+                        <td><%= donation.phone %></td>
+                        <td><%= donation.email %></td>
+                        <td><%= donation.foodType %></td>
+                        <td><%= donation.quantity %></td>
+                        <td><%= donation.pickupLocation %></td>
+                        <td><%= donation.assurity ? 'Yes' : 'No' %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p class="error"><%= message %></p>
+    <% } %>
+</body>
+</html>

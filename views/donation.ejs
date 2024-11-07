@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunger-Free Donation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #28a745;
+            color: white;
+
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Styles for thank you card and rating system */
+        .thank-you-card {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #e9ffe9;
+            margin-top: 2rem;
+        }
+
+        .thank-you-card img {
+            width: 100px;
+            height: auto;
+        }
+
+        .stars {
+            font-size: 2rem;
+            color: gold;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .star {
+            cursor: pointer;
+            margin: 0 0.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hunger-Free Donation Form</h1>
+    </header>
+    <main>
+        <form id="donation-form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Details:</label>
+                <input type="tel" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="food-type">Type of Food:</label>
+                <select id="food-type" name="food_type" required>
+                    <option value="veg">Vegetarian</option>
+                    <option value="non-veg">Non-Vegetarian</option>
+                    <option value="both">Both</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity (serves how many members):</label>
+                <input type="number" id="quantity" name="quantity" required>
+            </div>
+            <div class="form-group">
+                <label for="pickup-location">Pick-up Location:</label>
+                <input type="text" id="pickup-location" name="pickup_location" required>
+            </div>   
+                    <label style="display: inline-block;">         
+                  <input type="checkbox" id="assurity" name="assurity" required>i hereby assure that the food donated is safe,clean,freashly prepared,and handled with proper hygiene standards.i accept full responsibility for any issues arising from its consumption...</label>
+            <button type="submit">Submit</button>
+        </form>
+        
+        <div class="thank-you-card" id="thank-you-card">
+            <img alt="Thank You">
+            <h1>Thank You for Your Contribution!</h1>
+            <p>Your support is greatly appreciated.</p>
+            <div class="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('donation-form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const donationData = {
+                name: document.getElementById('username').value,
+                phone: document.getElementById('contact').value,
+                email: document.getElementById('email').value,
+                foodType: document.getElementById('food-type').value,
+                quantity: document.getElementById('quantity').value,
+                pickupLocation: document.getElementById('pickup-location').value,
+                assurity: document.getElementById('assurity').checked,
+            }
+            console.log(donationData);
+            
+            try {
+                const response = await fetch('/submit-donation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(donationData),
+                });
+
+                if (response.ok) {
+                    window.location.href = '/all-donations';
+                } else {
+                    const { message } = await response.json();
+                    alert(message || 'Error submitting donation.');
+                }
+            } catch (error) {
+                console.log(error);
+                alert('Something went wrong. Please')
+            }
+            
+        });
+
+        // Add event listener for star rating
+        document.querySelectorAll('.star').forEach(function(star) {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-value');
+                alert('Thank you for rating ' + rating + ' stars!');
+                // You can also send the rating to your server if needed
+            });
+        });
+    </script>
+</body>
+</html>

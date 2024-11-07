@@ -1,0 +1,137 @@
+<!-- views/user-details.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details - Hunger Free</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #00334e;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            width: 25%;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #00334e;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-size: 16px;
+            color: #00334e;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #00334e;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #006080;
+        }
+        footer {
+            background-color: #00334e;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        #message {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h3>User Details - Hunger Free</h3>
+    </header>
+
+    <!-- User Details Form -->
+    <div class="container">
+        <form id="age-form" action="/register" method="post">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="contact">Contact Number:</label>
+            <input type="tel" id="contact" name="phone" placeholder="Enter your contact number" required>
+
+            <label for="dob">DOB:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Hunger Free. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('age-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            const DOBInput = document.getElementById('dob').value;
+            if (!DOBInput) {
+                document.getElementById('message').textContent = 'Please enter your date of birth.';
+                return;
+            }
+
+            const DOB = new Date(DOBInput);
+            const today = new Date();
+            let age = today.getFullYear() - DOB.getFullYear();
+            const m = today.getMonth() - DOB.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < DOB.getDate())) {
+                age--;
+            }
+
+            const minAge = 18;
+            if (age >= minAge) {
+                document.getElementById('message').textContent = 'Processing...';
+                // Here you can redirect or show the donation form
+                document.getElementById('age-form').submit();
+            } else {
+                document.getElementById('message').textContent = 'Sorry! You aren\'t old enough to donate.';
+                window.location.href='/user-details';
+            }
+        });
+    </script>
+</body>
+</html>
